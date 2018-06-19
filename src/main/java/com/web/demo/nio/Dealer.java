@@ -59,6 +59,7 @@ public class Dealer {
                         String message = "welcome " +name+
                                 " to chat room! Online numbers: "+onlineNum;
                         //todo 广播
+                        BroadCast2(clientChannels,null,message);
                     }
                 }
                 //注册完，发送消息
@@ -68,7 +69,8 @@ public class Dealer {
                     message = name+" say:"+message;
                     if (Util.users.contains(name)){
                         //不回发给发送此内容的客户端
-                        //todo
+                        // TODO: 2018/6/20
+                        BroadCast2(clientChannels,socketChannel,message);
                     }
                 }
             }
@@ -108,7 +110,7 @@ public class Dealer {
         }
     }
 
-    public void BroadCast2(List<SocketChannel> socketChannels,SocketChannel socketChannel,String content) {
+    public static void BroadCast2(List<SocketChannel> socketChannels,SocketChannel socketChannel,String content) {
         socketChannels.forEach(socketChannel1 -> {
             if (!socketChannel.equals(socketChannel1)){
                 //除了自己，其他通道都通知

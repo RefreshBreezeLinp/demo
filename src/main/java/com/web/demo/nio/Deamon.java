@@ -58,12 +58,14 @@ public class Deamon implements Runnable {
                     iterator.remove();
                     if (key.isAcceptable()){
                         //监听到新的注册加入到读操作
-                        //todo this.clientChannel.add();
+                        //todo
+                        this.clientChannel.add(Dealer.accept(selector,serverSocketChannel));
                     }
                     else if (key.isReadable()) {
                         //监听到读操作
                         try {
-                            //todo
+                            //// TODO: 2018/6/20
+                            Dealer.read(selector,key,clientChannel);
                         } catch (Exception e){
                             e.printStackTrace();
                         }
