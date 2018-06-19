@@ -9,8 +9,8 @@ public class Util {
     //自定义协议
     public static String USER_CONTENT_SPLITE = "#@#";
     //用于记录用户
-    public HashSet<String> users = new HashSet<String>();
+    public static HashSet<String> users = new HashSet<String>();
 
-    public String USER_EXIST = "MESSAGE: user exist, please change a name !";
+    public static String USER_EXIST = "MESSAGE: user exist, please change a name !";
 
 }

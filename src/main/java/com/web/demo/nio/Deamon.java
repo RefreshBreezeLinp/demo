@@ -58,12 +58,12 @@ public class Deamon implements Runnable {
                     iterator.remove();
                     if (key.isAcceptable()){
                         //监听到新的注册加入到读操作
-                        //this.clientChannel.add();
+                        //todo this.clientChannel.add();
                     }
                     else if (key.isReadable()) {
                         //监听到读操作
                         try {
-
+                            //todo
                         } catch (Exception e){
                             e.printStackTrace();
                         }

@@ -1,10 +1,11 @@
 package com.web.demo.nio;
 
+import ch.qos.logback.core.net.server.Client;
+
+import java.io.IOException;
 import java.nio.ByteBuffer;
-import java.nio.channels.SelectionKey;
-import java.nio.channels.Selector;
-import java.nio.channels.ServerSocketChannel;
-import java.nio.channels.SocketChannel;
+import java.nio.channels.*;
+import java.security.Key;
 import java.util.List;
 
 public class Dealer {
@@ -47,8 +48,76 @@ public class Dealer {
         if (num>=0){
             if (content.length()>0){
                 String[] arrayContent = content.toString().split(Util.USER_CONTENT_SPLITE);
-                
+                if (arrayContent!=null&&arrayContent.length == 1){
+                    String name = arrayContent[0];
+                    if (Util.users.contains(name)) {
+                        socketChannel.write(Util.charset.encode(Util.USER_EXIST));
+                    }
+                    else {
+                        Util.users.add(name);
+                        int onlineNum = clientChannels.size();
+                        String message = "welcome " +name+
+                                " to chat room! Online numbers: "+onlineNum;
+                        //todo 广播
+                    }
+                }
+                //注册完，发送消息
+                else if (arrayContent!=null&&arrayContent.length>1){
+                    String name = arrayContent[0];
+                    String message = content.substring(name.length() + Util.USER_CONTENT_SPLITE.length());
+                    message = name+" say:"+message;
+                    if (Util.users.contains(name)){
+                        //不回发给发送此内容的客户端
+                        //todo
+                    }
+                }
             }
         }
+        else {
+            /**
+             * 如果没有读到数据，对方关闭了socketChannel所以服务器这边也要关闭
+             */
+            socketChannel.close();
+            int length = clientChannels.size();
+            for (int i = 0;i<length;i++){
+                if (clientChannels.get(i).equals(socketChannel)){
+                    clientChannels.remove(i);
+                }
+            }
+        }
+    }
+
+    public static int onlineNum(Selector selector) {
+        int res = 0;
+        for (SelectionKey selectionKey:selector.keys()){
+            Channel channel = selectionKey.channel();
+            if (channel instanceof SocketChannel) {
+                res++;
+            }
+        }
+        return res;
+    }
+
+    public void BroadCast(Selector selector,SocketChannel socketChannel, String content) throws IOException  {
+        for (SelectionKey selectionKey:selector.keys()){
+            Channel channel = selectionKey.channel();
+            if (channel instanceof SocketChannel && socketChannel != channel) {
+                SocketChannel socketChannel1 = (SocketChannel) channel;
+                socketChannel.write(Util.charset.encode(content));
+            }
+        }
+    }
+
+    public void BroadCast2(List<SocketChannel> socketChannels,SocketChannel socketChannel,String content) {
+        socketChannels.forEach(socketChannel1 -> {
+            if (!socketChannel.equals(socketChannel1)){
+                //除了自己，其他通道都通知
+                try {
+                    socketChannel.write(Util.charset.encode(content));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 }
