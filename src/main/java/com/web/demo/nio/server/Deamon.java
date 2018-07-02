@@ -78,7 +78,7 @@ public class Deamon implements Runnable {
             try {
                 this.serverSocketChannel.close();
             } catch (Exception e){
-                e.printStackTrace();;
+                e.printStackTrace();
             }
         }
         if (this.selector!=null&&this.selector.isOpen()){
