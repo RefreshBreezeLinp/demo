@@ -15,7 +15,7 @@ public class ThreadHandle implements Runnable {
     public void run() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         String date = sdf.format(new Date());
-        System.out.println(Thread.currentThread().getName()+"Start Time:"+date);
+       // System.out.println(Thread.currentThread().getName()+"Start Time:"+date);
 
         try {
             Thread.sleep(4000);
