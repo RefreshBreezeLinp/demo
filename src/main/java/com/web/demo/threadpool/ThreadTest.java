@@ -4,7 +4,7 @@ import java.util.concurrent.*;
 
 public class ThreadTest {
     //推荐书籍：领域驱动设计，架构思想，
-    //插件：阿里编码规约插件
+    //插件：阿里编码规约插件，MapStruct插件
     //数据库锁：https://blog.csdn.net/samjustin1/article/details/52210125
     //线程池讲解参考地址：https://www.cnblogs.com/dolphin0520/p/3932921.html
     //线程池构造方法四个构造方法：
