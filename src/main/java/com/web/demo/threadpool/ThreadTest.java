@@ -3,6 +3,7 @@ package com.web.demo.threadpool;
 import java.util.concurrent.*;
 
 public class ThreadTest {
+    //数据库锁：https://blog.csdn.net/samjustin1/article/details/52210125
     //线程池讲解参考地址：https://www.cnblogs.com/dolphin0520/p/3932921.html
     //线程池构造方法四个构造方法：
     //  1. ThreadPoolExecutor(int corePoolSize,int maximumPoolSize,long keepAliveTime,TimeUnit unit,
