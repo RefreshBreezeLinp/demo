@@ -22,6 +22,7 @@ public class ThreadTest {
     //      }]
     //  3. java提供的线程池包括（Executors）：newCachedThreadPool,newFixedThreadPool,newSingleThreadExecutor,newScheduledThreadPool
     //  4. 线程池类实现关系:Executor-->ExecutorService-->AbstractExecutorService-->ThreadPoolExecutor
+    //  5. 线程池源码讲解：https://www.jianshu.com/p/87bff5cc8d8c
     public static void main(String[] args) {
         //3.1 Executors中的newCachedThreadPool
         ExecutorService executorService = Executors.newCachedThreadPool();
