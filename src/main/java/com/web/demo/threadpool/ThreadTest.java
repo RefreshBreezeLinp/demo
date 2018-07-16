@@ -30,18 +30,18 @@ public class ThreadTest {
         //           threadFactory, defaultHandler [AbortPolicy] );
         //   b. 核心线程数，最大线程数，线程空闲时间，时间单位，同步队列（用来存储等待执行的任务）
         //      拒绝处理任务时的策略AbortPolicy 丢弃任务并抛出异常
-        ThreadPoolExecutor executorService1 = new ThreadPoolExecutor(5,10,2000,TimeUnit.MILLISECONDS,new ArrayBlockingQueue<>(5));
+        ThreadPoolExecutor executorService1 = new ThreadPoolExecutor(5,10,2000,TimeUnit.MILLISECONDS,new ArrayBlockingQueue<>(5),new MyRejectPolicy());
         for (int i=0;i<20;i++){
             //executorService.execute(new ThreadHandle(String.valueOf(i)));
             executorService1.execute(new ThreadHandle(String.valueOf(i)));
             //当核心线程满了，则将线程缓存到队列中，如果队列满了，就创建新线程去处理
             System.out.println("线程中的数量："+ executorService1.getPoolSize()+
                     ",队列中等待的线程数："+executorService1.getQueue().size()+",已执行完的线程数："+executorService1.getCompletedTaskCount());
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+//            try {
+//                Thread.sleep(1000);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
         }
         System.out.println(executorService1.getCompletedTaskCount());
     }

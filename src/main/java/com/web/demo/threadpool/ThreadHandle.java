@@ -26,4 +26,12 @@ public class ThreadHandle implements Runnable {
         String end = sdf.format(new Date());
         System.out.println(Thread.currentThread().getName()+"End Time:"+end);
     }
+
+    public String getIndex() {
+        return index;
+    }
+
+    public void setIndex(String index) {
+        this.index = index;
+    }
 }
