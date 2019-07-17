@@ -11,14 +11,14 @@ public class Dealer {
 
         ByteBuffer byteBuffer = ByteBuffer.allocate(6 * 1024);
         int num = 0;
-        String content = "";
+        StringBuilder content = new StringBuilder();
         while ((num = socketChannel.read(byteBuffer))>0) {
             byteBuffer.flip();
-            content += Util.charset.decode(byteBuffer);
+            content.append(Util.charset.decode(byteBuffer));
         }
         if (Util.USER_EXIST.equals(content)){
             System.out.println("name has exist");
         }
-        System.out.println(content);
+        System.out.println(content.toString());
     }
 }
