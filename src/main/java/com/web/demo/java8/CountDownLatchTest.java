@@ -26,6 +26,11 @@ public class CountDownLatchTest {
         Thread t2 = new Thread(new Runnable() {
             @Override
             public void run() {
+                try {
+                    Thread.sleep(3000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 System.out.println("run2...");
                 countDownLatch.countDown();
             }
@@ -33,8 +38,11 @@ public class CountDownLatchTest {
 
         t2.start();
         t1.start();
+        System.out.println("main run...");
         countDownLatch.await();
         System.out.println("end");
     }
+
+    //next CyclicBarrier AQS
 
 }
