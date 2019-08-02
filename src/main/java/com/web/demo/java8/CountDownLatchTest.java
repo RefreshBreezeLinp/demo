@@ -23,17 +23,14 @@ public class CountDownLatchTest {
             }
         });
 
-        Thread t2 = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Thread.sleep(3000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                System.out.println("run2...");
-                countDownLatch.countDown();
+        Thread t2 = new Thread(() -> {
+            try {
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
+            System.out.println("run2...");
+            countDownLatch.countDown();
         });
 
         t2.start();

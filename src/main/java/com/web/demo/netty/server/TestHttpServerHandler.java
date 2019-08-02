@@ -8,10 +8,10 @@ import io.netty.handler.codec.http.*;
 import io.netty.util.CharsetUtil;
 
 
-public class TestHttpServerHandler  extends SimpleChannelInboundHandler<HttpObject> {
+public class TestHttpServerHandler  extends SimpleChannelInboundHandler<String> {
     @Override
-    protected void channelRead0(ChannelHandlerContext channelHandlerContext, HttpObject httpObject) throws Exception {
-        if (httpObject  instanceof  HttpRequest){
+    protected void channelRead0(ChannelHandlerContext channelHandlerContext, String httpObject) throws Exception {
+        /*if (httpObject  instanceof  HttpRequest){
             HttpRequest request = (HttpRequest) httpObject;
             System.out.println(request.method().name());
         }
@@ -19,7 +19,27 @@ public class TestHttpServerHandler  extends SimpleChannelInboundHandler<HttpObje
         FullHttpResponse response = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1,HttpResponseStatus.OK,content);
         response.headers().set(HttpHeaderNames.CONTENT_TYPE,"text/plain");
         response.headers().set(HttpHeaderNames.CONTENT_LENGTH,content.readableBytes());
-
-        channelHandlerContext.writeAndFlush(response);
+*/
+        System.out.println("remote address: " + channelHandlerContext.channel().remoteAddress() + "msg:" + httpObject);
+        channelHandlerContext.channel().writeAndFlush("httpObject");
     }
+
+    @Override
+    public void channelRegistered(ChannelHandlerContext channelHandlerContext) throws Exception {
+        System.out.println("channel register");
+        super.channelRegistered(channelHandlerContext);
+    }
+
+    @Override
+    public void channelActive(ChannelHandlerContext ctx) throws Exception {
+        System.out.println("channel active");
+        ctx.channel().writeAndFlush("channel active");
+    }
+
+    @Override
+    public void channelUnregistered(ChannelHandlerContext ctx) throws Exception {
+        System.out.println("channel unRegistered");
+        super.channelUnregistered(ctx);
+    }
+
 }

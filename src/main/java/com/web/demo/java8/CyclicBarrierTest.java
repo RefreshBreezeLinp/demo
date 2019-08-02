@@ -12,6 +12,8 @@ import java.util.concurrent.CyclicBarrier;
  **/
 public class CyclicBarrierTest {
 
+    // CyclicBarrier中reset()方法的使用：https://blog.csdn.net/J080624/article/details/85261930
+
     public static CountDownLatch cwl;
 
     public CyclicBarrierTest(int count) {
@@ -36,9 +38,9 @@ public class CyclicBarrierTest {
                 cyclicBarrier.await();
                 System.out.println(Thread.currentThread().getName() + "正在执行");
                 Thread.sleep(1000);
-                cwl.countDown();
                 countDownLatch.await();
                 System.out.println(Thread.currentThread().getName() + "执行完成");
+                cwl.countDown();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -56,8 +58,15 @@ public class CyclicBarrierTest {
             Work work = cyclicBarrierTest.new Work(cyclicBarrier, countDownLatch);
             work.start();
         }
-        cwl.await();
-        System.out.println("say hello!");
         countDownLatch.countDown();
+        System.out.println("say hello!");
+        cwl.await();
+        System.out.println("-------");
+        cyclicBarrier.reset();
+        for (int i = 0; i < 3; i++) {
+            System.out.println("创建新的工作线程" + (i + 3));
+            Work work = cyclicBarrierTest.new Work(cyclicBarrier, countDownLatch);
+            work.start();
+        }
     }
 }
