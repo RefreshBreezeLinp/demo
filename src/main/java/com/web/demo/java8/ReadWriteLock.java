@@ -37,19 +37,26 @@ public class ReadWriteLock {
 
         readLock.lock();
         if (flag) {
+            System.out.println(Thread.currentThread().getName() + " 获取到读锁。。。");
             readLock.unlock();
+
             writeLock.lock();
             map.put(key, value);
             readLock.lock();
         }
-        writeLock.unlock();
-
+        System.out.println(Thread.currentThread().getName() + " sleep...");
         try {
-            Thread.sleep(3000);
+            Thread.sleep(4000);
         } catch (InterruptedException e) {
             System.out.println("sleep error...");
         }
+        writeLock.unlock();
 
+        try {
+            Thread.sleep(4000);
+        } catch (InterruptedException e) {
+            System.out.println("sleep error...");
+        }
         System.out.println(Thread.currentThread().getName() + " 获取到值：" + map.get(key));
         readLock.unlock();
         return map.get(key);
@@ -104,6 +111,11 @@ public class ReadWriteLock {
         new Thread(() -> {
             readWriteLock.lockDegradation("key1", "value1");
         }).start();
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            System.out.println("sleep error...");
+        }
         new Thread(() -> {
             readWriteLock.lockDegradation("key1", "value2");
         }).start();
